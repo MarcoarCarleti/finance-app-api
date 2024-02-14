@@ -18,7 +18,9 @@
         "husky": "^5.2.0"
     },
     "dependencies": {
+        "eslint-config-prettier": "^9.1.0",
         "git-commit-msg-linter": "^5.0.6",
-        "lint-staged": "^15.2.2"
+        "lint-staged": "^15.2.2",
+        "prettier": "^3.2.5"
     }
 }
