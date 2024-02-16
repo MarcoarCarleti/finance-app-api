@@ -1,6 +1,7 @@
 import 'dotenv/config.js'
 import express from 'express'
 import { CreateUserController } from './controllers/create-user.js'
+import { GetUserByIdController } from './controllers/get-user-by-id.js'
 
 const app = express()
 
@@ -12,6 +13,14 @@ app.post('/api/users', async (req, res) => {
     const { statusCode, body } = await createUserController.execute(req)
 
     res.status(statusCode).json(body)
+})
+
+app.get('/api/users/:userId', async (req, res) => {
+    const getUserByIdController = new GetUserByIdController()
+
+    const { statusCode, body } = await getUserByIdController.execute(req)
+
+    res.status(statusCode).send(body)
 })
 
 app.listen(process.env.PORT, () => {
