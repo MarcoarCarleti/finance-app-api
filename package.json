@@ -8,7 +8,7 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "postinstall": "npx husky install",
         "migrations": "node src/db/postgres/migrations/exec.js",
-        "dev": "node src/index.js"
+        "dev": "node --watch src/index.js"
     },
     "keywords": [],
     "author": "",
@@ -28,6 +28,7 @@
         "lint-staged": "^15.2.2",
         "pg": "^8.11.3",
         "prettier": "^3.2.5",
-        "uuid": "^9.0.1"
+        "uuid": "^9.0.1",
+        "validator": "^13.11.0"
     }
 }
