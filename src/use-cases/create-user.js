@@ -19,6 +19,7 @@ export class CreateUserUseCase {
             ID: userId,
             password: hashedPassword,
         }
+        
         // chamar o repositório
         const postgresCreateUserRepository = new PostgresCreateUserRepository()
 
