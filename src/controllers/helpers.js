@@ -16,3 +16,10 @@ export const ok = (body) => ({
     statusCode: 200,
     body,
 })
+
+export const notFound = (field) => ({
+    statusCode: 404,
+    body: {
+        message: `${field} not found`,
+    },
+})
