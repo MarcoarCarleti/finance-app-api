@@ -16,7 +16,7 @@ export class UpdateUserUseCase {
                     updateUserParams.email,
                 )
 
-            if (userWithProvidedEmail) {
+            if (userWithProvidedEmail && userWithProvidedEmail.id !== userId) {
                 throw new EmailAlreadyInUseError(updateUserParams.email)
             }
         }
@@ -24,7 +24,7 @@ export class UpdateUserUseCase {
         // se a senha estiver sendo atualizada, criptografá-la
 
         const user = {
-            ...updateUserParams
+            ...updateUserParams,
         }
 
         if (updateUserParams.password) {
