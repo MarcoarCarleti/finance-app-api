@@ -7,8 +7,8 @@ import {
     checkIfEmailIsValid,
     checkIfPasswordIsValid,
     emailIsAlreadyInUseResponse,
-    InvalidPasswordResponse,
-} from './helpers'
+    invalidPasswordResponse,
+} from './helpers/index.js'
 
 export class CreateUserController {
     async execute(httpRequest) {
@@ -31,7 +31,7 @@ export class CreateUserController {
             const passwordIsValid = checkIfPasswordIsValid(params.password)
 
             if (!passwordIsValid) {
-                return InvalidPasswordResponse()
+                return invalidPasswordResponse()
             }
 
             const emailIsValid = checkIfEmailIsValid(params.email)

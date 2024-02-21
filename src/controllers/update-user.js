@@ -7,8 +7,10 @@ import {
     checkIfPasswordIsValid,
     checkIfEmailIsValid,
     checkIfIdIsValid,
-    badRequest, ok, serverError 
-} from './helpers'
+    badRequest,
+    ok,
+    serverError,
+} from './helpers/index.js'
 
 export class UpdateUserController {
     async execute(httpRequest) {
