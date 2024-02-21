@@ -45,7 +45,7 @@ export class UpdateUserController {
             if (params.password) {
                 const passwordIsValid = checkIfPasswordIsValid(params.password)
 
-                if (passwordIsValid) {
+                if (!passwordIsValid) {
                     return invalidPasswordResponse()
                 }
             }
@@ -54,7 +54,7 @@ export class UpdateUserController {
                 const emailIsValid = checkIfEmailIsValid(params.email)
 
                 if (!emailIsValid) {
-                    return emailIsAlreadyInUseResponse()
+                    return emailIsAlreadyInUseResponse(params.email)
                 }
             }
 
