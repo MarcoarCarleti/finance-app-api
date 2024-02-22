@@ -4,10 +4,10 @@ import {
     ok,
     serverError,
     userNotFoundResponse,
-} from './helpers/index.js'
+} from '../helpers/index.js'
 
 export class DeleteUserControlller {
-    constructor(deleteUserUseCase){
+    constructor(deleteUserUseCase) {
         this.deleteUserUseCase = deleteUserUseCase
     }
     async execute(httpRequest) {

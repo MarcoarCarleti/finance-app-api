@@ -1,4 +1,4 @@
-import { EmailAlreadyInUseError } from '../errors/user.js'
+import { EmailAlreadyInUseError } from '../../errors/user.js'
 import {
     invalidPasswordResponse,
     invalidIdResponse,
@@ -9,10 +9,10 @@ import {
     badRequest,
     ok,
     serverError,
-} from './helpers/index.js'
+} from '../helpers/index.js'
 
 export class UpdateUserController {
-    constructor(updateUserUseCase){
+    constructor(updateUserUseCase) {
         this.updateUserUseCase = updateUserUseCase
     }
 
@@ -61,7 +61,10 @@ export class UpdateUserController {
                 }
             }
 
-            const updatedUser = await this.updateUserUseCase.execute(userId, params)
+            const updatedUser = await this.updateUserUseCase.execute(
+                userId,
+                params,
+            )
 
             return ok(updatedUser)
         } catch (err) {
