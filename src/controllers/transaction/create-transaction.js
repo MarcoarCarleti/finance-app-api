@@ -1,9 +1,11 @@
 import {
-    badRequest,
     checkIfAmountIsValid,
     checkIfIdIsValid,
+    checkIfTypeIsValid,
     created,
+    invalidAmountResponse,
     invalidIdResponse,
+    invalidTypeResponse,
     requiredFieldIsMissingResponse,
     serverError,
     validateRequiredFields,
@@ -43,24 +45,17 @@ export class CreateTransactionController {
             const amountIsValid = checkIfAmountIsValid(amount)
 
             if (!amountIsValid) {
-                return badRequest({
-                    message: 'The amount must be a valid currency.',
-                })
+                return invalidAmountResponse()
             }
 
             // verificar se o tipo da transação é válido
 
             const transactionType = params.type.trim().toUpperCase()
 
-            const typeIsValid = ['EARNING', 'EXPENSE', 'INVESTIMENT'].includes(
-                transactionType,
-            )
+            const typeIsValid = checkIfTypeIsValid(transactionType)
 
             if (!typeIsValid) {
-                return badRequest({
-                    message:
-                        'The type must be EARNING, EXPENSE or INVESTIMENT.',
-                })
+                return invalidTypeResponse()
             }
 
             // criar a transação
