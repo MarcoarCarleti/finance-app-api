@@ -1,11 +1,15 @@
 import validator from 'validator'
 import { badRequest } from './http.js'
 
-export const checkIfAmountIsValid = (transaction) => {
-    return validator.isCurrency(transaction.toString(), {
+export const checkIfAmountIsValid = (amount) => {
+    if (typeof amount !== 'number') {
+        return false
+    }
+
+    return validator.isCurrency(amount.toFixed(2), {
         digits_after_decimal: [2],
         allow_negatives: false,
-        allow_decimal: false,
+        decimal_separator: '.',
     })
 }
 
