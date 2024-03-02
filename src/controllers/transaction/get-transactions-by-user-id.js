@@ -1,11 +1,9 @@
 import { EmailAlreadyInUseError } from '../../errors/user.js'
-import { ok } from '../helpers/http.js'
+import { ok, badRequest, serverError } from '../helpers/http.js'
 import {
-    badRequest,
     checkIfIdIsValid,
     invalidIdResponse,
     requiredFieldIsMissingResponse,
-    serverError,
 } from '../helpers/validation.js'
 
 export class GetTransactionsByUserIdController {

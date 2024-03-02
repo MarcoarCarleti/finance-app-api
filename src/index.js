@@ -5,7 +5,8 @@ import {
     makeDeleteUserController,
     makeGetUserByIdController,
     makeUpdateUserController,
-    makeCreateTransactionController
+    makeCreateTransactionController,
+    makeGetTransactionsByUserIdController,
 } from './factories/controllers/index.js'
 
 const app = express()
@@ -28,14 +29,6 @@ app.post('/api/users', async (req, res) => {
     res.status(statusCode).send(body)
 })
 
-app.post('/api/transactions', async (req, res) => {
-    const createTransactionController = makeCreateTransactionController()
-
-    const {statusCode, body} = await createTransactionController.execute(req)
-
-    res.status(statusCode).send(body)
-})
-
 app.patch('/api/users/:userId', async (req, res) => {
     const updateUserController = makeUpdateUserController()
 
@@ -48,6 +41,24 @@ app.delete('/api/users/:userId', async (req, res) => {
     const deleteUserController = makeDeleteUserController()
 
     const { statusCode, body } = await deleteUserController.execute(req)
+
+    res.status(statusCode).send(body)
+})
+
+app.get('/api/transactions', async (req, res) => {
+    const getTransactionsByUserIdController =
+        makeGetTransactionsByUserIdController()
+
+    const { statusCode, body } =
+        await getTransactionsByUserIdController.execute(req)
+
+    res.status(statusCode).send(body)
+})
+
+app.post('/api/transactions', async (req, res) => {
+    const createTransactionController = makeCreateTransactionController()
+
+    const { statusCode, body } = await createTransactionController.execute(req)
 
     res.status(statusCode).send(body)
 })
