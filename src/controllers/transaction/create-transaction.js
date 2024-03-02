@@ -1,4 +1,6 @@
+import { EmailAlreadyInUseError } from '../../errors/user.js'
 import {
+    badRequest,
     checkIfAmountIsValid,
     checkIfIdIsValid,
     checkIfTypeIsValid,
@@ -67,6 +69,9 @@ export class CreateTransactionController {
 
             return created(transaction)
         } catch (err) {
+            if (err instanceof EmailAlreadyInUseError) {
+                return badRequest({ message: err.message })
+            }
             console.error(err)
             return serverError({ message: err.message })
         }
