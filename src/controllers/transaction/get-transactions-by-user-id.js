@@ -1,4 +1,4 @@
-import { EmailAlreadyInUseError } from '../../errors/user.js'
+import { UserNotFoundError } from '../../errors/user.js'
 import { ok, badRequest, serverError } from '../helpers/http.js'
 import {
     checkIfIdIsValid,
@@ -42,7 +42,7 @@ export class GetTransactionsByUserIdController {
         } catch (err) {
             console.log(err)
 
-            if (err instanceof EmailAlreadyInUseError) {
+            if (err instanceof UserNotFoundError) {
                 return badRequest({ message: err.message })
             }
 
