@@ -1,6 +1,6 @@
 import { PostgresHelper } from '../../../db/postgres/helper.js'
 
-export class PostgresDeleteTransaction {
+export class PostgresDeleteTransactionRepository {
     constructor() {}
 
     async execute(transactionId) {

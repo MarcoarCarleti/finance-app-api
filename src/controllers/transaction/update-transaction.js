@@ -8,6 +8,7 @@ import {
     invalidTypeResponse,
     ok,
     serverError,
+    transactionNotFoundResponse,
 } from '../helpers/index.js'
 
 export class UpdateTransactionController {
@@ -26,8 +27,6 @@ export class UpdateTransactionController {
             if (!idIsValid) {
                 return invalidIdResponse(transactionId)
             }
-
-            
 
             const params = httpRequest.body
 
@@ -64,6 +63,10 @@ export class UpdateTransactionController {
                     transactionId,
                     params,
                 )
+
+            if (!updatedTransaction) {
+                return transactionNotFoundResponse()
+            }
 
             return ok(updatedTransaction)
         } catch (err) {
