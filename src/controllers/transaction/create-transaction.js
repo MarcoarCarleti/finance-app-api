@@ -1,16 +1,9 @@
-import { EmailAlreadyInUseError } from '../../errors/user.js'
+import { ZodError } from 'zod'
+import { createTransactionSchema } from '../../schemas/transaction.js'
 import {
     badRequest,
-    checkIfAmountIsValid,
-    checkIfIdIsValid,
-    checkIfTypeIsValid,
     created,
-    invalidAmountResponse,
-    invalidIdResponse,
-    invalidTypeResponse,
-    requiredFieldIsMissingResponse,
     serverError,
-    validateRequiredFields,
 } from '../helpers/index.js'
 
 export class CreateTransactionController {
@@ -21,57 +14,19 @@ export class CreateTransactionController {
         try {
             const params = httpRequest.body
 
-            const requiredFields = ['user_id', 'name', 'date', 'amount', 'type']
+            await createTransactionSchema.parseAsync(params)
 
-            const { ok: requiredFieldsWereProvided, missingField } =
-                validateRequiredFields(params, requiredFields)
-
-            if (!requiredFieldsWereProvided) {
-                return requiredFieldIsMissingResponse(missingField)
-            }
-
-            // verificar se o id do usuário é valido
-
-            const userId = params.user_id
-
-            const isIdValid = checkIfIdIsValid(userId)
-
-            if (!isIdValid) {
-                return invalidIdResponse()
-            }
-
-            // verificar se o valor da transação é válido
-
-            const amount = params.amount
-
-            const amountIsValid = checkIfAmountIsValid(amount)
-
-            if (!amountIsValid) {
-                return invalidAmountResponse()
-            }
-
-            // verificar se o tipo da transação é válido
-
-            const transactionType = params.type.trim().toUpperCase()
-
-            const typeIsValid = checkIfTypeIsValid(transactionType)
-
-            if (!typeIsValid) {
-                return invalidTypeResponse()
-            }
-
-            // criar a transação
-
-            const transaction = await this.createTransactionUseCase.execute({
-                ...params,
-                type: transactionType,
-            })
+            const transaction =
+                await this.createTransactionUseCase.execute(params)
 
             return created(transaction)
         } catch (err) {
-            if (err instanceof EmailAlreadyInUseError) {
-                return badRequest({ message: err.message })
+            if (err instanceof ZodError) {
+                return badRequest({
+                    message: err.errors[0].message,
+                })
             }
+
             console.error(err)
             return serverError({ message: err.message })
         }
