@@ -1,10 +1,8 @@
+import { ZodError } from 'zod'
 import { EmailAlreadyInUseError } from '../../errors/user.js'
+import { updateUserSchema } from '../../schemas/index.js'
 import {
-    invalidPasswordResponse,
     invalidIdResponse,
-    emailIsAlreadyInUseResponse,
-    checkIfPasswordIsValid,
-    checkIfEmailIsValid,
     checkIfIdIsValid,
     badRequest,
     ok,
@@ -45,21 +43,7 @@ export class UpdateUserController {
                 })
             }
 
-            if (params.password) {
-                const passwordIsValid = checkIfPasswordIsValid(params.password)
-
-                if (!passwordIsValid) {
-                    return invalidPasswordResponse()
-                }
-            }
-
-            if (params.email) {
-                const emailIsValid = checkIfEmailIsValid(params.email)
-
-                if (!emailIsValid) {
-                    return emailIsAlreadyInUseResponse()
-                }
-            }
+            await updateUserSchema.parseAsync(params)
 
             const updatedUser = await this.updateUserUseCase.execute(
                 userId,
@@ -68,6 +52,12 @@ export class UpdateUserController {
 
             return ok(updatedUser)
         } catch (err) {
+            if (err instanceof ZodError) {
+                return badRequest({
+                    message: err.errors[0].message,
+                })
+            }
+
             if (err instanceof EmailAlreadyInUseError) {
                 return badRequest({ message: err.message })
             }
